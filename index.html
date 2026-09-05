@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invitación Mis 15 Años</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ========================================================================= */
+        /* 🎨 PANEL DE DISEÑO: VARIABLES DE EDICIÓN FÁCIL (CSS)                    */
+        /* ========================================================================= */
+        :root {
+            /* 1. COLORES GENERALES - PALETA VIOLETA Y LILA */
+            --color-principal-rosa: #f8f0f8;
+            --color-secundario-rosa-fuerte: #9b59b6;
+            --color-dorado-brillante: #6a0dad;
+            --color-dorado-claro: #d7bde2;
+            --color-fondo-crema: #fffdf5;
+
+            /* 1.1. NUEVAS VARIABLES: COLORES DEL SOBRE (FÁCIL EDICIÓN) */
+            --sobre-fondo: #e8dff5;
+            --sobre-solapa: #d0bdf4;
+            --sobre-lados: #b993ef;
+            --sobre-base: #a368ea;
+
+            /* 1.2. NUEVAS VARIABLES: COLORES DEL LACRE (FÁCIL EDICIÓN) */
+            --lacre-claro: #c39bd3;
+            --lacre-medio: #8e44ad;
+            --lacre-oscuro: #5b2c6f;
+            --lacre-borde: #4a235a;
+
+            /* 2. FUENTES DISPONIBLES */
+            --fuente-elegante: 'Great Vibes', cursive;
+            --fuente-texto: 'Playfair Display', serif;
+
+            /* 3. IMÁGENES Y POSICIÓN DE LA PRINCESA EN PORTADA DEL SOBRE */
+            --fondo-portada-img: url('fondo de sobre.jpg'); 
+            --princesa-sobre-ancho: 400px; 
+            --princesa-sobre-top: 280px;  
+            --princesa-sobre-left: 70%;    
+
+            /* 4. POSICIÓN DE TEXTOS Y ELEMENTOS DEL SOBRE - AJUSTADOS PARA CENTRAR */
+            --texto-mis15-tamano: 1.5rem; 
+            --titulos-mover-arriba-abajo: 0px; 
+            --sobre-escala: 1; 
+            --sobre-mover-arriba-abajo: 0px; 
+            --toca-abrir-mover-arriba-abajo: 0px; 
+            --toca-abrir-mover-izquierda-derecha: 0px; 
+
+            /* 5. DISEÑO DE LAS CAJAS GENERALES */
+            --cajas-fuente: var(--fuente-texto);
+            --cajas-color-texto: #4a4a4a;
+            --cajas-tamano-texto: 1.1rem;
+            --cajas-interlineado: 1.6;
+            --cajas-margen-interno: 35px 25px;
+
+            /* 6. DISEÑO DE TEXTOS ESPECÍFICOS */
+            --reserva-fecha-fuente: var(--fuente-elegante);
+            --reserva-fecha-color: var(--color-dorado-brillante);
+            --reserva-fecha-tamano: 2.8rem;
+
+            --mes-fuente: var(--fuente-elegante);
+            --mes-color: var(--color-dorado-brillante);
+            --mes-tamano: 2.4rem;
+
+            --faltan-fuente: var(--fuente-elegante);
+            --faltan-color: var(--color-dorado-brillante);
+            --faltan-tamano: 2.6rem;
+        }
+
+        /* --- ESTILOS ESTRUCTURALES Y RESPONSIVOS --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--fuente-texto); background-color: #222; color: var(--cajas-color-texto); overflow-x: hidden; display: flex; justify-content: center; }
+
+        .invitation-container {
+            width: 100%; max-width: 450px; background-color: var(--color-fondo-crema); min-height: 100vh;
+            position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); overflow: hidden; 
+        }
+
+        /* FONDO DE VIDEO CORREGIDO PARA EVITAR ZOOMS */
+        .animated-bg-wrapper { 
+            position: fixed; top: 0; left: 50%; transform: translateX(-50%); 
+            width: 100%; max-width: 450px; height: 100vh; z-index: 1; overflow: hidden; 
+        }
+        .animated-bg-wrapper video { width: 100%; height: 100%; object-fit: cover; opacity: 1; }
+
+        /* PORTADA (SOBRE) CORREGIDA */
+        #cover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100vh; background-color: var(--color-principal-rosa);
+            background-image: var(--fondo-portada-img); background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100; cursor: pointer; transition: opacity 0.8s ease-in-out;
+            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+        }
+        #cover.hidden { opacity: 0; pointer-events: none; }
+        
+        .cover-titles { position: relative; z-index: 10; text-align: center; transform: translateY(var(--titulos-mover-arriba-abajo)); pointer-events: none; }
+        .cover-name { font-family: var(--fuente-elegante); font-size: 2.5rem; color: var(--color-secundario-rosa-fuerte); margin: 10px 0;}
+        
+        .envelope-wrapper { position: relative; margin: 40px 0 20px; display: flex; justify-content: center; align-items: flex-end; transform: translateY(var(--sobre-mover-arriba-abajo)); z-index: 10; pointer-events: none;}
+        
+        #princesa-sobre { position: absolute; width: var(--princesa-sobre-ancho); top: var(--princesa-sobre-top); left: var(--princesa-sobre-left); transform: translateX(-50%); z-index: 15; pointer-events: none; }
+
+        .envelope { position: relative; width: 280px; height: 180px; background: var(--sobre-fondo); border-radius: 8px; box-shadow: 0 15px 30px rgba(0,0,0,0.3); z-index: 5; transform: scale(var(--sobre-escala)); transform-origin: bottom center; pointer-events: none; }
+        
+        .envelope-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 100px solid var(--sobre-solapa); z-index: 3; transform-origin: top; transition: transform 0.6s ease-in-out, opacity 0.4s ease; filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2)); }
+        .envelope-left { position: absolute; top: 0; left: 0; width: 0; height: 0; border-top: 90px solid transparent; border-bottom: 90px solid transparent; border-left: 140px solid var(--sobre-lados); z-index: 1; }
+        .envelope-right { position: absolute; top: 0; right: 0; width: 0; height: 0; border-top: 90px solid transparent; border-bottom: 90px solid transparent; border-right: 140px solid var(--sobre-lados); z-index: 1; }
+        .envelope-bottom { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-bottom: 90px solid var(--sobre-base); z-index: 2; }
+        
+        .wax-seal { 
+            position: absolute; top: 100px; left: 50%; transform: translate(-50%, -50%); 
+            width: 65px; height: 65px; border-radius: 50%; z-index: 4; 
+            background: radial-gradient(circle, var(--lacre-claro) 0%, var(--lacre-medio) 70%, var(--lacre-oscuro) 100%);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.4); border: 2px solid var(--lacre-borde);
+            display: flex; justify-content: center; align-items: center; color: #fff; font-family: var(--fuente-elegante); font-size: 2.2rem; transition: opacity 0.4s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        .toca-abrir { position: relative; z-index: 20; color: var(--color-secundario-rosa-fuerte); font-weight: bold; margin-top: 20px; transform: translate(var(--toca-abrir-mover-izquierda-derecha), var(--toca-abrir-mover-arriba-abajo)); text-shadow: 0px 0px 10px rgba(255,255,255,0.9), 0px 0px 5px rgba(255,255,255,0.9); pointer-events: none; }
+
+        .play-btn-discreto { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.9); border: 2px solid var(--color-dorado-brillante); color: var(--color-secundario-rosa-fuerte); font-size: 1.3rem; z-index: 1000; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; justify-content: center; align-items: center; transition: transform 0.3s; }
+        .play-btn-discreto:hover { transform: scale(1.1); }
+
+        #main-invitation { display: none; position: relative; z-index: 5; }
+        .content-layer { position: relative; z-index: 5; padding: 40px 20px; min-height: 100vh; }
+
+        .gold-section {
+            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            border: 2px solid #ffffff; border-radius: 15px;
+            padding: var(--cajas-margen-interno); margin-bottom: 40px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative; z-index: 5; text-align: center;
+            font-family: var(--cajas-fuente); font-size: var(--cajas-tamano-texto); line-height: var(--cajas-interlineado);
+        }
+
+        .title-fancy { font-family: var(--fuente-elegante); font-size: 3rem; color: var(--color-dorado-brillante); margin-bottom: 0px; }
+        .txt-reserva { font-family: var(--reserva-fecha-fuente); color: var(--reserva-fecha-color); font-size: var(--reserva-fecha-tamano); margin-bottom: -5px; }
+        .txt-mes { font-family: var(--mes-fuente); color: var(--mes-color); font-size: var(--mes-tamano); margin-bottom: 20px; line-height: 1; }
+        .txt-faltan { font-family: var(--faltan-fuente); color: var(--faltan-color); font-size: var(--faltan-tamano); margin-bottom: 10px; }
+
+        .button-call { display: inline-block; background-color: var(--color-secundario-rosa-fuerte); color: white; text-decoration: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; margin-top: 20px; position: relative; z-index: 20; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; font-size: 0.9rem;}
+        
+        .marco-elegante { 
+            position: relative; 
+            border: 6px double var(--color-dorado-brillante); 
+            border-radius: 12px; 
+            padding: 8px; 
+            background-color: var(--color-fondo-crema); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2); 
+            margin: 0 auto 40px; 
+            width: 90%; 
+            text-align: center; 
+        }
+        .marco-elegante img { width: 100%; border-radius: 8px; display: block; }
+        .box-frase { margin-top: 80px; }
+
+        .calendar { width: 100%; font-family: sans-serif; border-collapse: collapse; margin: 10px 0 20px; table-layout: fixed; font-size: 0.95rem; }
+        .calendar th, .calendar td { text-align: center; padding: 10px 0; }
+        .calendar th { color: var(--color-dorado-brillante); }
+        .calendar .highlight-date { background-color: var(--color-secundario-rosa-fuerte); color: white; border-radius: 50%; width: 35px; height: 35px; display: inline-flex; justify-content: center; align-items: center; font-weight: bold; margin: 0 auto; box-shadow: 0 3px 6px rgba(0,0,0,0.2); }
+
+        .countdown-box { display: flex; justify-content: space-between; margin-top: 15px; font-family: sans-serif; gap: 4px; }
+        .countdown-item { background: rgba(240, 244, 248, 0.9); border: 1px solid var(--color-dorado-claro); border-radius: 8px; padding: 8px 2px; width: 24%; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .countdown-number { font-family: var(--fuente-texto); font-size: 2.2rem; font-weight: normal; color: var(--color-secundario-rosa-fuerte); display: block; }
+        .countdown-label { font-size: 0.6rem; text-transform: uppercase; color: #555; margin-top: 4px; white-space: nowrap; display: block; }
+
+        .gallery-container { width: 100%; overflow: hidden; position: relative; margin: 20px 0; }
+        .gallery-slide { display: flex; transition: transform 0.5s ease-in-out; }
+        .gallery-item { min-width: 100%; padding: 0 10px; }
+        .gallery-item-frame { width: 100%; height: 250px; border: 4px solid var(--color-dorado-claro); border-radius: 15px; overflow: hidden; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-nav { display: flex; justify-content: space-around; margin-top: 15px; }
+        .gallery-nav button { background-color: var(--color-secundario-rosa-fuerte); color: white; border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; position: relative; z-index: 20; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+        .modal-content { background: var(--color-fondo-crema); padding: 30px; border-radius: 15px; text-align: center; max-width: 90%; width: 350px; position: relative; border: 2px solid var(--color-dorado-brillante); transform: translateY(-20px); transition: transform 0.3s; }
+        .modal-overlay.show { opacity: 1; }
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 2rem; cursor: pointer; color: var(--color-secundario-rosa-fuerte); line-height: 1; }
+        .datos-banco { font-family: sans-serif; color: #4a4a4a; text-align: left; margin-top: 15px; line-height: 1.6; font-size: 0.95rem; }
+
+        .decorador-wrapper { position: absolute; z-index: 10; pointer-events: none; }
+        .decorador-img { display: block; filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.15)); }
+        
+        .decor-float { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 
+            0% { transform: translateY(0px) var(--espejo, scaleX(1)); } 
+            50% { transform: translateY(-10px) var(--espejo, scaleX(1)); } 
+            100% { transform: translateY(0px) var(--espejo, scaleX(1)); } 
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="invitationSong" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="musicPlayBtn" class="play-btn-discreto" onclick="toggleMusic()">
+        <i id="musicIcon" class="fas fa-play"></i>
+    </button>
+
+    <div id="modalBanco" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="cerrarModal()">&times;</span>
+            <p class="title-fancy" style="font-size: 2.5rem; margin-bottom: 5px;">Datos Bancarios</p>
+            <i class="fas fa-university" style="font-size: 2rem; color: var(--color-dorado-brillante);"></i>
+            <div class="datos-banco">
+                <p><strong>Banco:</strong> BROU</p>
+                <p><strong>Caja de Ahorro $:</strong> 1234567-8</p>
+                <p><strong>Titular:</strong> Cayetana Torres</p>
+                <hr style="border: 0.5px solid #ccc; margin: 15px 0;">
+                <p><strong>Colectivo Abitab:</strong> 12345</p>
+                <p><strong>Titular:</strong> Isabella</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="invitation-container">
+        <div class="animated-bg-wrapper">
+            <video autoplay muted loop playsinline>
+                <source src="fondo.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <!-- PORTADA SIN ONCLICK EN HTML PARA EVITAR BLOQUEOS TÁCTILES -->
+        <div id="cover">
+            <div class="cover-titles">
+                <p style="color: var(--color-dorado-brillante); text-transform: uppercase; letter-spacing: 2px; font-size: var(--texto-mis15-tamano);"></p>
+                <h1 class="cover-name">Invitación especial</h1>
+            </div>
+            
+            <div class="envelope-wrapper">
+                <div class="envelope">
+                    <div class="envelope-flap" id="flap"></div>
+                    <div class="envelope-left"></div>
+                    <div class="envelope-right"></div>
+                    <div class="envelope-bottom"></div>
+                    <div class="wax-seal" id="seal">M</div>
+                </div>
+            </div>
+
+            <img src="" id="princesa-sobre" alt="Princesa" onerror="this.style.display='none'">
+            <p class="toca-abrir">TOCA PARA ABRIR</p>
+        </div>
+
+        <div id="main-invitation">
+            <div class="content-layer">
+
+                <section class="gold-section" id="sec-intro" style="margin-top: 30px;">
+                    <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--color-secundario-rosa-fuerte); font-weight: bold;">Mis 15 años</p>
+                    <p class="title-fancy" style="font-size: 3.8rem; margin: 10px 0;">Martina</p>
+                    <p style="font-style: italic;">"Hay momentos inolvidables<br> que se atesoran en el<br> corazón para siempre,<br> acompáñame a vivir el mío."</p>
+                </section>
+
+                <div id="sec-foto-principal" class="marco-elegante">
+                    <img src="portada.jpg" alt="Foto Principal" onerror="this.style.display='none'">
+                </div>
+
+                <section class="gold-section" id="sec-reserva">
+                    <p class="txt-reserva">Agendá la fecha</p>
+                    <p class="txt-mes">noviembre 2026</p>
+                    
+                    <table class="calendar">
+                        <thead><tr> <th>L</th> <th>M</th> <th>M</th> <th>J</th> <th>V</th> <th>S</th> <th>D</th> </tr></thead>
+                        <tbody id="calendarBody"></tbody>
+                    </table>
+
+                    <div style="margin-top: 25px; border-top: 1px dashed var(--color-dorado-claro); padding-top: 20px;">
+                        <p class="txt-faltan" id="countdown-title">Faltan...</p>
+                        <div class="countdown-box">
+                            <div class="countdown-item"><span id="days" class="countdown-number">00</span><span class="countdown-label">Días</span></div>
+                            <div class="countdown-item"><span id="hours" class="countdown-number">00</span><span class="countdown-label">Horas</span></div>
+                            <div class="countdown-item"><span id="minutes" class="countdown-number">00</span><span class="countdown-label">Min</span></div>
+                            <div class="countdown-item"><span id="seconds" class="countdown-number">00</span><span class="countdown-label">Seg</span></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="gold-section" id="sec-galeria">
+                    <p class="title-fancy">Galería</p>
+                    <p style="font-size: 0.95rem; font-style: italic; color: var(--color-secundario-rosa-fuerte); margin-top: -5px; margin-bottom: 15px;">Toca para deslizar</p>
+                    <div class="gallery-container">
+                        <div class="gallery-slide" id="gallerySlide">
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto1.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto2.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto3.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto4.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto5.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto6.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto7.jpg" onerror="this.style.display='none'"></div></div>
+                            <div class="gallery-item"><div class="gallery-item-frame"><img src="foto8.jpg" onerror="thi
